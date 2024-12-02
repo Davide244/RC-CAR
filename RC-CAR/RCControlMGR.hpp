@@ -33,6 +33,7 @@ namespace RCCar
 		int m_PWMPin;
 		int m_directionPin;
 		int m_speed;
+		int m_currentSpeed;
 
 		MotorDirection m_direction;
 	};

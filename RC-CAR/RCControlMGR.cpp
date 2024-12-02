@@ -1,6 +1,14 @@
 #include "RCControlMGR.hpp"
 #include <Arduino.h>
 
+namespace RCCar::Utils 
+{
+	int lerp(int a, int b, float f)
+	{
+		return (int)((float)a + f * ((float)b - (float)a));
+	}
+}
+
 namespace RCCar 
 {
 	MotorControl::MotorControl(int PWMPin, int DirectionPin)
@@ -22,7 +30,13 @@ namespace RCCar
 
 	void MotorControl::run()
 	{
-		analogWrite(m_PWMPin, m_speed);
+		// lerp the speed
+		if (m_currentSpeed != m_speed)
+		{
+			m_currentSpeed = Utils::lerp(m_currentSpeed, m_speed, 0.1f);
+		}
+
+		analogWrite(m_PWMPin, m_currentSpeed);
 
 		// Set the direction of the motor
 		if (m_direction == MotorDirection::Clockwise)

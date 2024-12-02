@@ -32,7 +32,7 @@ namespace RCCar
     void BluetoothDevice::run()
     {
         //Serial.println("Running Bluetooth Device!");
-        while (Serial.available()) 
+        if(Serial.available()) 
         {
             currentByte = Serial.readBytes(Data, 1);
             currentByte = Data[0];
