@@ -11,10 +11,23 @@ namespace RCCar
 	volatile static double rbc_motorLeftSpeed;
 	volatile static double rbc_motorRightSpeed;
 
+	volatile static int rbc_motorRightInterruptCounter = 0;
+
+	enum RoboCarState
+	{
+		INIT,
+		DRIVE,
+		DRIVE_FIXED_DISTANCE,
+		STOP,
+		TURN_LEFT,
+		TURN_RIGHT
+
+	};
+
 	class RoboCar
 	{
 	public:
-		RoboCar(MotorControl motorLeft, int motorLeftMeasureSpeedPin, MotorControl motorRight, int motorRightMeasureSpeedPin, Sensors::UltrasonicSensor fronLeftSensor, Sensors::UltrasonicSensor frontRightSensor);
+		RoboCar(MotorControl motorLeft, int motorLeftMeasureSpeedPin, MotorControl motorRight, int motorRightMeasureSpeedPin, Sensors::UltrasonicSensor fronLeftSensor, Sensors::UltrasonicSensor frontRightSensor, int controlButtonPin);
 
 		void run();
 
@@ -23,15 +36,22 @@ namespace RCCar
 		MotorControl rbc_motorRight; 
 
 		unsigned long rbc_lastPingTime = -1;
+		unsigned long rbc_lastMotorCorrectionTime = -1;
+		unsigned long rbc_stateStartMillis = -1;
 		Sensors::UltrasonicSensor rbc_frontLeftSensor;
 		Sensors::UltrasonicSensor rbc_frontRightSensor;
 		//Sensors::UltrasonicSensor m_backLeftSensor;
 		//Sensors::UltrasonicSensor m_backRightSensor;
 
+		RoboCarState rbc_currentState = INIT;
+
 		int rbc_motorLeftMeasureSpeedPin;
 		int rbc_motorRightMeasureSpeedPin;
 
 		int correctionalFactor = 0;
+		int driveDistanceMeters = 0;
+		int controlButtonPin;
+		bool controlButtonPressed = false;
 
 		int rbc_currentMotorSpeedDifference = 0;
 		int rbc_currentMotorsOptimalSpeed = 0;

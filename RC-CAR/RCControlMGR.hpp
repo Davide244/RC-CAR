@@ -35,6 +35,9 @@ namespace RCCar
 		void setSpeed(int speed, bool lerpChange = true);
 
 		void setCorrectionFactor(int factor);
+		void increaseCorrection(int amount = 1);
+		void decreaseCorrection(int amount = 1);
+		void resetCorrection();
 		int getCorrectionFactor() { return m_correctionFactor; }
 
 		/// <summary>

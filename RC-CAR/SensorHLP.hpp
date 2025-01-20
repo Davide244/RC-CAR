@@ -6,7 +6,7 @@ namespace RCCar::Sensors
 	class Sensor 
 	{
 	public:
-		virtual void run() = 0;
+		virtual void run(int max_value) = 0;
 		int getValue() { return m_value; }
 
 	protected:
@@ -21,7 +21,7 @@ namespace RCCar::Sensors
 		/// <summary>
 		/// This runs the sensor ping and calculates the distance in cm. It is written into m_distance.
 		/// </summary>
-		void run();
+		void run(int max_distance = 3500);
 
 		/// <summary>
 		/// Get the distance that was last calculated by run().

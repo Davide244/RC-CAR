@@ -21,7 +21,17 @@ namespace RCCar
 
 	void MotorControl::setSpeed(int speed, bool lerpChange)
 	{
-		m_speed = (double)speed + m_correctionFactor;
+		if (speed == 0) 
+		{
+			m_speed = 0;
+			m_currentSpeed = 0;
+
+			resetCorrection();
+		}
+		else m_speed = (double)speed;
+
+		if (!lerpChange)
+			m_currentSpeed = m_speed;
 	}
 
 	void MotorControl::setCorrectionFactor(int factor)
@@ -29,9 +39,26 @@ namespace RCCar
 		m_correctionFactor = factor;
 	}
 
+	void MotorControl::increaseCorrection(int amount)
+	{
+		m_correctionFactor += amount;
+	}
+
+	void MotorControl::decreaseCorrection(int amount)
+	{
+		m_correctionFactor -= amount;
+	}
+
+	void MotorControl::resetCorrection()
+	{
+		m_correctionFactor = 0;
+	}
+
 	void MotorControl::run()
 	{
-		m_currentSpeed = Utils::lerp(m_currentSpeed, m_speed, 0.01f);
+		m_currentSpeed = Utils::lerp(m_currentSpeed, m_speed + m_correctionFactor, 0.05f);
+
+		//Serial.println(m_correctionFactor);
 
 		// IF speed is 0, set all PWM pins to LOW
 		if (m_currentSpeed == 0) 
