@@ -34,7 +34,7 @@ namespace RCCar
 			m_currentSpeed = m_speed;
 	}
 
-	void MotorControl::setCorrectionFactor(int factor)
+	void MotorControl::setCorrectionFactor(double factor)
 	{
 		m_correctionFactor = factor;
 	}
@@ -56,7 +56,9 @@ namespace RCCar
 
 	void MotorControl::run()
 	{
-		m_currentSpeed = Utils::lerp(m_currentSpeed, m_speed + m_correctionFactor, 0.05f);
+		m_currentSpeed = Utils::lerp(m_currentSpeed, m_speed * m_correctionFactor, 0.05f);
+		if (m_currentSpeed > 255) m_currentSpeed = 255;
+		//Serial.println(m_correctionFactor);
 
 		//Serial.println(m_correctionFactor);
 

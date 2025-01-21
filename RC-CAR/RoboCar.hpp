@@ -35,6 +35,8 @@ namespace RCCar
 		MotorControl rbc_motorLeft;
 		MotorControl rbc_motorRight; 
 
+		const double correctionFactorMultiplier = 0.0001;
+
 		unsigned long rbc_lastPingTime = -1;
 		unsigned long rbc_lastMotorCorrectionTime = -1;
 		unsigned long rbc_stateStartMillis = -1;
@@ -43,7 +45,7 @@ namespace RCCar
 		//Sensors::UltrasonicSensor m_backLeftSensor;
 		//Sensors::UltrasonicSensor m_backRightSensor;
 
-		RoboCarState rbc_currentState = INIT;
+		RoboCarState rbc_currentState = DRIVE;
 
 		int rbc_motorLeftMeasureSpeedPin;
 		int rbc_motorRightMeasureSpeedPin;

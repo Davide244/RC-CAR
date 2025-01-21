@@ -49,19 +49,27 @@ namespace RCCar
 		{
 			rbc_lastMotorCorrectionTime = millis();
 
+			rbc_currentMotorSpeedDifference = rbc_motorLeftSpeed - rbc_motorRightSpeed;
+			double correctionFactor = 1.0 * (abs(rbc_currentMotorSpeedDifference) * correctionFactorMultiplier);
+
 			if (rbc_motorLeftSpeed > rbc_motorRightSpeed)
 			{
-				rbc_currentMotorSpeedDifference = rbc_motorLeftSpeed - rbc_motorRightSpeed;
-				rbc_motorRight.decreaseCorrection(1);
+				rbc_motorRight.setCorrectionFactor(correctionFactor);
+				rbc_motorLeft.setCorrectionFactor(1);
 				//rbc_motorLeft.increaseCorrection(1);
 			}
 			else if (rbc_motorLeftSpeed < rbc_motorRightSpeed)
 			{
-				rbc_currentMotorSpeedDifference = rbc_motorLeftSpeed - rbc_motorRightSpeed;
-				rbc_motorRight.increaseCorrection(1);
+				rbc_motorRight.setCorrectionFactor(1);
+				rbc_motorLeft.setCorrectionFactor(correctionFactor);
 				//rbc_motorLeft.decreaseCorrection(1);
 			}
 		}
+
+		Serial.print("Left motor speed: ");
+		Serial.print(rbc_motorLeftSpeed);
+		Serial.print("  |  Right motor speed: ");
+		Serial.println(rbc_motorRightSpeed);
 
 		// Check when the wheel interrupts were last measured. If it was more than 100ms ago, set speed to 0.
 		if (millis() - rbc_motorLeftSpeedLastMeasureTime > 100)
@@ -81,11 +89,11 @@ namespace RCCar
 		Serial.print("  |  Right Distance: ");
 		Serial.println(rbc_frontRightSensor.getDistance());*/
 
-		if (rbc_currentState != INIT) 
+		/*if (rbc_currentState != INIT) 
 		{
 			Serial.print("State: ");
 			Serial.println(rbc_currentState);
-		}
+		}*/
 
 		switch (rbc_currentState)
 		{

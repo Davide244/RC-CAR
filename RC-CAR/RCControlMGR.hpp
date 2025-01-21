@@ -34,7 +34,7 @@ namespace RCCar
 		/// <param name="lerpChange">If false, the speed is set instantly, otherwise the speed is slowly set to the speed via a lerp function.</param>
 		void setSpeed(int speed, bool lerpChange = true);
 
-		void setCorrectionFactor(int factor);
+		void setCorrectionFactor(double factor);
 		void increaseCorrection(int amount = 1);
 		void decreaseCorrection(int amount = 1);
 		void resetCorrection();
@@ -54,7 +54,7 @@ namespace RCCar
 		double m_measurePin;
 		double m_speed;				// Goal speed, This is the speed that the motor should be at
 		double m_currentSpeed;		// The current speed of the motor. This is the lerped value.
-		int m_correctionFactor = 0;	// The multiplier for the correction of the speed.
+		double m_correctionFactor = 0;	// The multiplier for the correction of the speed.
 
 		unsigned long m_lastSpeedMeasureTime;	// The last time the speed was measured.
 
